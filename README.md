@@ -10,4 +10,8 @@
 
 学号：202230445105
 
-
+## 代码说明
+backend 为后端代码 Springboot3 + JDK21 + MySQL8 + Redis7
+调整配置，启动
+frontend 为前端代码 Vue3
+启动 npm run dev
