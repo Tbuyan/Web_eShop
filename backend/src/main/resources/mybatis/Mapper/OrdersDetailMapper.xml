@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eshop.mapper.OrdersDetailMapper">
+    <resultMap id="BaseResultMap" type="com.eshop.domain.OrdersDetail">
+        <id column="od_id" jdbcType="INTEGER" property="odid"/>
+        <result column="o_id" jdbcType="INTEGER" property="oid"/>
+        <result column="p_id" jdbcType="INTEGER" property="pId"/>
+        <result column="od_p_count" jdbcType="INTEGER" property="odPCount"/>
+        <result column="od_p_money" jdbcType="VARCHAR" property="odPMoney"/>
+    </resultMap>
+    <insert id="addOrdersDetail" parameterType="com.eshop.domain.OrdersDetail">
+        INSERT INTO orders_detail (odid, oid, p_id, od_p_count, od_p_money)
+        VALUES (#{odid}, #{oid}, #{pId}, #{odPCount}, #{odPMoney})
+    </insert>
+    <delete id="deleteOrdersDetail">
+        DELETE FROM orders_detail WHERE odid = #{odid}
+    </delete>
+    <select id="getOrdersDetail" resultType="com.eshop.domain.OrdersDetail">
+        SELECT * FROM orders_detail WHERE oid = #{oid}
+    </select>
+    <select id="getOrdersBySaler" resultType="com.eshop.domain.OrdersDetail">
+        SELECT * FROM orders_detail WHERE p_id IN (SELECT pid FROM product WHERE uid1 = #{uid}) order by odid desc
+    </select>
+    <select id="getOrdersDetailtime" resultType="java.lang.String">
+        SELECT o_time FROM orders,orders_detail where orders.oid=orders_detail.oid and orders_detail.oid=#{oid}
+    </select>
+    <select id="getOrderbyOrdersDetail" resultType="com.eshop.domain.Orders">
+        SELECT * FROM orders where oid=#{oid}
+    </select>
+</mapper>

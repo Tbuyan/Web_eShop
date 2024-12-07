@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eshop.mapper.ShopMapper">
+    <resultMap id="ShopMap" type="Shop">
+        <result property="uId1" column="u_id1" jdbcType="INTEGER"/>
+        <result property="sName" column="s_name" jdbcType="VARCHAR"/>
+        <result property="sDes" column="s_des" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="getShopProduct" resultType="com.eshop.domain.Product">
+        select *
+        from product, shop
+        where product.uid1 = shop.sid and shop.s_name = #{shopname}
+    </select>
+
+    <select id="getShopInfo" resultType="com.eshop.domain.Shop">
+        select * from shop where s_name = #{sName}
+    </select>
+
+    <select id="getShopId" resultType="java.lang.Integer">
+        select sid from shop where s_name = #{sName}
+    </select>
+    <insert id="addShop" parameterType="com.eshop.domain.Shop">
+        insert into shop(u_id1, s_name, s_des)
+        values (#{uId1},#{sName},#{sDes})
+    </insert>
+    <delete id="deleteShop" parameterType="com.eshop.domain.Shop">
+        delete from shop where s_name = #{sName}
+    </delete>
+    <update id="updateShop" parameterType="com.eshop.domain.Shop">
+        UPDATE shop
+        <set>
+            <if test="sName != null">s_name = #{sName},</if>
+            <if test="sDes != null">s_des = #{sDes},</if>
+        </set>
+        WHERE s_name = #{sName}
+    </update>
+</mapper>

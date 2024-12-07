@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eshop.mapper.OrdersMapper">
+
+    <resultMap id="BaseResultMap" type="com.eshop.domain.Orders">
+        <id column="oid" jdbcType="INTEGER" property="oid"/>
+        <result column="u_id0" jdbcType="INTEGER" property="uId0"/>
+        <result column="o_state" jdbcType="INTEGER" property="oState"/>
+        <result column="o_time" jdbcType="VARCHAR" property="oTime"/>
+        <result column="p_count" jdbcType="INTEGER" property="pCount"/>
+    </resultMap>
+    <insert id="addOrders" parameterType="com.eshop.domain.Orders">
+        INSERT INTO orders (oid, u_id0, o_state, o_time, p_count,address)
+        VALUES (#{oid, jdbcType=INTEGER}, #{uId0, jdbcType=INTEGER}, #{oState, jdbcType=INTEGER}, #{oTime, jdbcType=TIMESTAMP}, #{pCount, jdbcType=INTEGER},#{address,jdbcType=VARCHAR})
+    </insert>
+    <delete id="deleteOrders">
+        DELETE FROM orders WHERE oid = #{oid}
+    </delete>
+    <select id="getAllOrders" resultType="com.eshop.domain.Orders">
+        SELECT * FROM orders
+    </select>
+    <select id="getUserOrders" resultType="com.eshop.domain.Orders">
+        SELECT * FROM orders WHERE u_id0 = #{uid}
+    </select>
+    <select id="getOrdersBytime" resultType="java.lang.Integer">
+        SELECT oid FROM orders WHERE o_time = #{time}
+    </select>
+    <update id="updateOrders" parameterType="com.eshop.domain.Orders">
+        UPDATE orders SET o_state = #{oState, jdbcType=INTEGER} WHERE oid = #{oid}
+    </update>
+
+
+
+
+</mapper>

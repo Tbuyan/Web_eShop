@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eshop.mapper.ShopcarMapper">
+    <resultMap id="BaseResultMap" type="com.eshop.domain.Shopcar">
+        <!-- 映射嵌入式主键 -->
+        <id column="uid0" jdbcType="INTEGER" property="uid0"/>
+        <id column="pid" jdbcType="INTEGER" property="pId"/>
+        <!-- 映射其他字段 -->
+        <result column="p_id_count" jdbcType="INTEGER" property="pIdCount"/>
+    </resultMap>
+
+    <select id="getUserShopCar" resultType="com.eshop.domain.Product">
+        SELECT * FROM product WHERE pid IN (SELECT p_id FROM shopcar WHERE uid0 = #{uid})
+    </select>
+    <select id="getProductById" resultType="com.eshop.domain.Product">
+        SELECT * FROM product WHERE pid in (SELECT p_id FROM shopcar WHERE uid0 = #{uid0} and p_id = #{pId})
+    </select>
+    <select id="getUserShopCarCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM shopcar WHERE uid0 = #{uid}
+    </select>
+    <insert id="addUserShopCar" parameterType="com.eshop.domain.Shopcar">
+        INSERT INTO shopcar(uid0,p_id,p_id_count) VALUES(#{uid0},#{pId},#{pIdCount})
+    </insert>
+    <delete id="deleteUserShopCar" parameterType="com.eshop.domain.Shopcar">
+        DELETE FROM shopcar WHERE uid0 = #{uid0} and p_id = #{pId}
+    </delete>
+    <update id="updateUserShopCar" parameterType="com.eshop.domain.Shopcar">
+        UPDATE shopcar SET p_id_count = #{pIdCount} WHERE uid0 = #{uid0} and p_id = #{pId}
+    </update>
+    <select id="findById" resultType="com.eshop.domain.Shopcar">
+        SELECT * FROM shopcar WHERE  uid0 = #{uid0} and p_id = #{pId}
+    </select>
+    <select id="getProductCount" resultType="java.lang.Integer">
+        SELECT p_id_count FROM shopcar WHERE uid0 = #{uid0} and p_id = #{pId}
+    </select>
+
+</mapper>

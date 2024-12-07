@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eshop.mapper.ShopExpMapper">
+    <resultMap id="BaseResultMap" type="com.eshop.domain.ShopExp">
+        <id column="seid" jdbcType="INTEGER" property="seid"/>
+        <id column="u_id0" jdbcType="INTEGER" property="uId0"/>
+        <id column="p_id" jdbcType="INTEGER" property="pId"/>
+        <result column="se_time" jdbcType="VARCHAR" property="seTime"/>
+    </resultMap>
+    <insert id="addShopExp" parameterType="com.eshop.domain.ShopExp">
+        insert into shop_exp(u_id0, p_id, se_time)
+        values (#{uId0},#{pId},#{seTime})
+    </insert>
+    <select id="getShopExpByUser" resultMap="BaseResultMap">
+        select * from shop_exp where u_id0 = #{uid}
+    </select>
+    <select id="getSalerShopExp" resultMap="BaseResultMap">
+        select * from shop_exp where p_id in (select pid from product where uid1 = #{uid}) order by seid desc
+    </select>
+
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eshop.mapper.UserMapper">
+    <resultMap id="UserMap" type="User" >
+        <result property="uType" column="u_type" jdbcType="TINYINT"/>
+        <result property="password" column="password" jdbcType="VARCHAR" />
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="uName" column="u_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="login" resultType="com.eshop.domain.User">
+        select * from user
+        where u_name = #{uName} and password = #{password}
+    </select>
+
+    <insert id="register" parameterType="com.eshop.domain.User">
+        insert into user(password, u_type, u_name, email)
+        VALUES (#{password},#{uType},#{uName},#{email})
+    </insert>
+
+    <update id="reset" parameterType="com.eshop.domain.User">
+        update user
+        <set>
+            <if test="uName != null and uName != ''">
+                u_name = #{uName},
+            </if>
+            <if test="password != null and password !=''">
+                password=#{password},
+            </if>
+
+        </set>
+        where email = #{email}
+    </update>
+    <select id="getUser" resultType="com.eshop.domain.User" parameterType="java.lang.Integer">
+        select * from user where uid = #{uid}
+    </select>
+
+</mapper>
